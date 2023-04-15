@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     ],
   })
   // respond with found data
-  .then((categories) => res.json(categories))
+  .then((tagData) => res.json(tagData))
   // if err, throw err
   .catch((err) => res.status(400).json(err));
 });
@@ -32,21 +32,22 @@ router.get('/:id', (req, res) => {
     ],
   })
   // respond with found data
-  .then((categories) => res.json(categories))
+  .then((tagData) => res.json(tagData))
   // if err, throw err
   .catch((err) => res.status(400).json(err));
 });
 
 
-// create a new tag
+// create a new tag_name
 router.post('/', (req, res) => {
   // call sequelize to create what is in the request body
   Tag.create(req.body)
   // respond with found data
-  .then((categories) => res.json(categories))
+  .then((tagData) => res.json(tagData))
   // if err, throw err
   .catch((err) => res.status(400).json(err));
 });
+
 
 // update a tag's name by its `id` value
 router.put('/:id', (req, res) => {
@@ -58,7 +59,7 @@ router.put('/:id', (req, res) => {
     },
   })
   // respond with found data
-  .then((categories) => res.json(categories))
+  .then((tagData) => res.json(tagData))
   // if err, throw err
   .catch((err) => res.status(400).json(err));
 });
@@ -72,7 +73,7 @@ router.delete('/:id', (req, res) => {
     }
   })
   // respond with found data
-  .then((categories) => res.json(categories))
+  .then((tagData) => res.json(tagData))
   // if err, throw err
   .catch((err) => res.status(400).json(err));
 });
