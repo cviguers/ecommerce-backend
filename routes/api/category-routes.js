@@ -37,8 +37,14 @@ router.get('/:id', async (req, res) => {
 });
 
 // create a new category
-router.post('/', (req, res) => {
-  
+router.post('/', (req, res) => { 
+  // call sequelize to create in Category table from body
+  Category.create(req.body) 
+
+  // if successful return data
+  .then((categoryData) => res.status(200).json(categoryData)) 
+  // if err return err
+  .catch((err) => res.status(400).json(err)); 
 });
 
 // update a category by its `id` value
