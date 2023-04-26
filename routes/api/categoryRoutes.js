@@ -37,32 +37,28 @@ router.get('/:id', async (req, res) => {
 });
 
 // create a new category
-router.post('/', (req, res) => { 
-  // call sequelize to create in Category table from body
-  Category.create(req.body) 
-
-  // if successful return data
-  .then((categoryData) => res.status(200).json(categoryData)) 
-  // if err return err
-  .catch((err) => res.status(400).json(err)); 
+router.post('/', async (req, res) => {
+  try {
+    // make variable to create new instance of category model from body input
+    const categoryData = await Category.create(req.body);
+    res.status(200).json(categoryData);
+    // if err return err
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 // update a category by its `id` value
 router.put('/:id', async (req, res) => {
   try {
     // call sequelize to update in Category model
-    const categoryData = await Category.update(req.body, {
+      await Category.update(req.body, {
       where: {
         id: req.params.id,
       },
     });
-    // if no matching id, throw error
-    if (!categoryData[0]) {
-      res.status(404).json({ message: 'No category with this id!' });
-      return;
-    }
     // respond with updated data
-    res.status(200).json(categoryData);
+    res.status(200).json(req.body);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -71,18 +67,17 @@ router.put('/:id', async (req, res) => {
 // delete a category by its `id` value
 router.delete('/:id', async (req, res) => {
   try {
-    // call sequelize to destroy in Category model
-    const categoryData = await User.destroy({
+    const categoryData = await Category.destroy({
       where: {
-        id: req.params.id,
-      },
+        id: req.params.id
+      }
     });
     // if no matching id, throw error
     if (!categoryData) {
-      res.status(404).json({ message: 'No category with this id!' });
+      res.status(404).json({ message: 'No category found with this id!' });
       return;
     }
-    // respond with updated data
+    // return row to confirm deletion
     res.status(200).json(categoryData);
   } catch (err) {
     res.status(500).json(err);

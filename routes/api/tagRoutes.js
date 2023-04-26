@@ -50,18 +50,19 @@ router.post('/', (req, res) => {
 
 
 // update a tag's name by its `id` value
-router.put('/:id', (req, res) => {
-  // call sequelize to update what is in the request body
-  Tag.update(req.body, { 
-    // targets by specific id
-    where:{
-      id: req.params.id
-    },
-  })
-  // respond with found data
-  .then((tagData) => res.json(tagData))
-  // if err, throw err
-  .catch((err) => res.status(400).json(err));
+router.put('/:id', async (req, res) => {
+  try {
+    // call sequelize to update in tag model
+      await Tag.update(req.body, {
+      where: {
+        id: req.params.id,
+      },
+    });
+    // respond with updated data
+    res.status(200).json(req.body);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 // delete on tag by its `id` value
